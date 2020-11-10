@@ -17,7 +17,8 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'testhtprofile80062114-auth'
-
+  k8sNamespace: 'htprofile'
+  
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
   
