@@ -63,6 +63,7 @@ stages:
             inputs:
               action: createSecret
               secretName: $(imagePullSecret)
+              namespace: $(k8sNamespace)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
               
           - task: KubernetesManifest@0
@@ -74,6 +75,7 @@ stages:
                 $(Pipeline.Workspace)/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
+              namespace: $(k8sNamespace)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
 
