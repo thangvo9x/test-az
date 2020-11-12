@@ -30,10 +30,12 @@ stages:
   - job: Test
     displayName: Test stage
     pool:
-      vmImage: 'maven:3-openjdk-8'
+      vmImage: $(vmImageName)
     steps:
-    - script: mvn --version
+    - task: Maven@3
       displayName: Test MVN version
+      inputs:
+        mavenPomFile: 'pom.xml'  
     
        
        
