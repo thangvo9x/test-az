@@ -1,0 +1,65 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  - develop
+
+resources:
+  - repo: self
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '5bd961a0-d2aa-40ae-8311-1341252da644'
+  imageRepository: 'thangvo9xtestaz'
+  containerRegistry: 'testhtprofile.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+  imagePullSecret: 'testhtprofile80062114-auth'
+  gitCommit: $(Build.SourceVersion)
+  gitBranch: $(Build.SourceBranchName)
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+
+stages:
+  - stage: Test
+    displayName: Test stage
+    jobs:
+      - job: Test
+        displayName: Test stage
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Maven@3
+            displayName: Test MVN version
+            inputs:
+              mavenPomFile: 'pom.xml'
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              mavenVersionOption: 'Default'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
+
+  - stage: Build
+    displayName: Build stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - script: echo $(gitCommit)-$(gitBranch)
+          - task: Docker@2
+            displayName: Build
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(dockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(gitCommit)
