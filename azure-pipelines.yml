@@ -63,5 +63,3 @@ stages:
           containerRegistry: $(dockerRegistryServiceConnection)
           tags: |
             $(gitCommit)
-      - upload: manifests
-        artifact: manifests
