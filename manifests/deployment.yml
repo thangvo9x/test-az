@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: thangvo9xtestaz 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thangvo9xtestaz
+  template:
+    metadata:
+      labels:
+        app: thangvo9xtestaz 
+    spec:
+      containers:
+        - name: thangvo9xtestaz 
+          image: testhtprofile.azurecr.io/thangvo9xtestaz
+          ports:
+          - containerPort: 8080
