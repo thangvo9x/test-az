@@ -11,11 +11,7 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
-      host: mongodb
-      database: profile_db
-      port: 27017
-      username: htuser
-      password: hungthinh123
+      uri: mongodb+srv://htuser:hungthinh123@cluster0.apuky.mongodb.net/profile_db?retryWrites=true&w=majority
   security:
     oauth2:
       resourceserver:
