@@ -1,5 +1,7 @@
 server:
   port: 8080
+  error:
+    include-stacktrace: on_trace_param
 security:
   oauth2:
     resource:
@@ -21,8 +23,11 @@ spring:
           jwk-set-uri: https://htid.hungthinhcorp.com.vn/oauth2/jwks
 logging:
   level:
+    root: INFO
+    web: DEBUG
     org:
       springframework:
+        web: DEBUG
         security: DEBUG
 springdoc:
   swagger-ui:
