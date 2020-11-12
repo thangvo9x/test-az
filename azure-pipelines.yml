@@ -17,7 +17,8 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'testhtprofile80062114-auth'
-  k8sNamespace: 'htprofile'
+  gitCommit: $(Build.SourceVersion)
+  gitBranch: $(Build.SourceBranchName)
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -44,26 +45,23 @@ stages:
               effectivePomSkip: false
               sonarQubeRunAnalysis: false
 
-
-
-
-# - stage: Build
-#   displayName: Build stage
-#   jobs:
-#   - job: Build
-#     displayName: Build
-#     pool:
-#       vmImage: $(vmImageName)
-#     steps:
-#     - task: Maven@3
-#       displayName: Build
-#       inputs:
-#         command: buildAndPush
-#         repository: $(imageRepository)
-#         dockerfile: $(dockerfilePath)
-#         containerRegistry: $(dockerRegistryServiceConnection)
-#         tags: |
-#           $(tag)
-
-#     - upload: manifests
-#       artifact: manifests
+  - stage: Build
+    displayName: Build stage
+    jobs:
+    - job: Build
+      displayName: Build
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - script: echo $(gitCommit)-$(gitBranch)
+      - task: Docker@2
+        displayName: Build
+        inputs:
+          command: buildAndPush
+          repository: $(imageRepository)
+          dockerfile: $(dockerfilePath)
+          containerRegistry: $(dockerRegistryServiceConnection)
+          tags: |
+            $(gitCommit)
+      - upload: manifests
+        artifact: manifests
