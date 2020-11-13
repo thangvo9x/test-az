@@ -36,6 +36,7 @@ stages:
         pool:
           vmImage: $(vmImageName)
         steps:
+          - script: echo $(Build.PullRequest.TargetBranchName)
           - task: Maven@3
             displayName: Test MVN version
             inputs:
