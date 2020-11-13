@@ -1,32 +1,35 @@
 # Deploy to Azure Kubernetes Service
-# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry;
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-  - staging
-
+  branches:
+    include:
+    - prod
+    - develop
+    - staging
 resources:
   - repo: self
 
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '5bd961a0-d2aa-40ae-8311-1341252da644'
-  imageRepository: 'thangvo9xtestaz'
-  containerRegistry: 'testhtprofile.azurecr.io'
+  dockerRegistryServiceConnection: 'b8753fd3-05c7-4436-b521-6b80fd43df38'
+  imageRepository: $(Build.SourceBranchName)--$(Build.DefinitionName)
+  containerRegistry: 'httechtest.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
-  imagePullSecret: 'testhtprofile80062114-auth'
   gitCommit: $(Build.SourceVersion)
   gitBranch: $(Build.SourceBranchName)
+  isDevelop: $[eq(variables['Build.SourceBranchName'], 'develop')]
+  isStaging: $[eq(variables['Build.SourceBranchName'], 'staging')]
+  isProduction: $[eq(variables['Build.SourceBranchName'], 'prod')]
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-
 stages:
   - stage: Test
-    displayName: Test stage
+    displayName: Test Stage
     jobs:
       - job: Test
         pool:
@@ -45,7 +48,7 @@ stages:
               sonarQubeRunAnalysis: false
 
   - stage: Build
-    displayName: Build stage
+    displayName: Build Stage
     jobs:
     - job: Build
       pool:
@@ -53,7 +56,7 @@ stages:
       steps:
       - script: echo $(gitCommit)-$(gitBranch)
       - task: Docker@2
-        displayName: Build
+        displayName: Build & Push to ACR
         inputs:
           command: buildAndPush
           repository: $(imageRepository)

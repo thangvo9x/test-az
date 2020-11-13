@@ -1,5 +1,7 @@
 server:
   port: 8080
+  error:
+    include-stacktrace: on_trace_param
 security:
   oauth2:
     resource:
@@ -9,11 +11,7 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
-      host: mongodb
-      database: profile_db
-      port: 27017
-      username: htuser
-      password: hungthinh123
+      uri: mongodb+srv://htuser:hungthinh123@cluster0.apuky.mongodb.net/profile_db?retryWrites=true&w=majority
   security:
     oauth2:
       resourceserver:
@@ -21,8 +19,11 @@ spring:
           jwk-set-uri: https://htid.hungthinhcorp.com.vn/oauth2/jwks
 logging:
   level:
+    root: INFO
+    web: DEBUG
     org:
       springframework:
+        web: DEBUG
         security: DEBUG
 springdoc:
   swagger-ui:
