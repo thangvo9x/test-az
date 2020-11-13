@@ -29,7 +29,6 @@ stages:
     displayName: Test stage
     jobs:
       - job: Test
-        displayName: Test stage
         pool:
           vmImage: $(vmImageName)
         steps:
@@ -49,7 +48,6 @@ stages:
     displayName: Build stage
     jobs:
     - job: Build
-      displayName: Build
       pool:
         vmImage: $(vmImageName)
       steps:
