@@ -16,11 +16,11 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'b8753fd3-05c7-4436-b521-6b80fd43df38'
-  imageRepository: $(Build.PullRequest.TargetBranchName	)--$(Build.DefinitionName)
+  imageRepository: $(Build.PullRequest.TargetBranchName)--$(Build.DefinitionName)
   containerRegistry: 'httechtest.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   gitCommit: $(Build.SourceVersion)
-  gitBranch: $(Build.PullRequest.TargetBranchName	)
+  gitBranch: $(Build.PullRequest.TargetBranchName)
   isDevelop: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'develop')]
   isStaging: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'staging')]
   isProduction: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'prod')]
