@@ -8,6 +8,7 @@ trigger:
     - prod
     - develop
     - staging
+
 resources:
   - repo: self
 
@@ -15,14 +16,14 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'b8753fd3-05c7-4436-b521-6b80fd43df38'
-  imageRepository: $(Build.SourceBranchName)--$(Build.DefinitionName)
+  imageRepository: $(Build.PullRequest.TargetBranchName	)--$(Build.DefinitionName)
   containerRegistry: 'httechtest.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   gitCommit: $(Build.SourceVersion)
-  gitBranch: $(Build.SourceBranchName)
-  isDevelop: $[eq(variables['Build.SourceBranchName'], 'develop')]
-  isStaging: $[eq(variables['Build.SourceBranchName'], 'staging')]
-  isProduction: $[eq(variables['Build.SourceBranchName'], 'prod')]
+  gitBranch: $(Build.PullRequest.TargetBranchName	)
+  isDevelop: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'develop')]
+  isStaging: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'staging')]
+  isProduction: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'prod')]
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
