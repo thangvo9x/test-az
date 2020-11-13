@@ -15,7 +15,7 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '5bd961a0-d2aa-40ae-8311-1341252da644'
+  dockerRegistryServiceConnection: 'b8753fd3-05c7-4436-b521-6b80fd43df38'
   imageRepository: $(Build.SourceBranchName)--$(Build.DefinitionName)
   containerRegistry: 'httechtest.azurecr.io'
   dockerfilePath: '**/Dockerfile'
