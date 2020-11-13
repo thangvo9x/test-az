@@ -12,7 +12,7 @@ import java.util.Arrays;
 @SpringBootApplication
 @ComponentScan("ht.com")
 public class ProfileApplication {
-    /*  expect is success Test Latest 2.1*/
+    /*  expect is success All */
     public static void main(String[] args) {
         SpringApplication.run(ProfileApplication.class, args);
     }
