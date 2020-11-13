@@ -1,9 +1,13 @@
 # Deploy to Azure Kubernetes Service
-# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry;
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-  - develop
+  branches:
+    include:
+    - prod
+    - develop
+    - staging
 
 resources:
   - repo: self
@@ -15,7 +19,6 @@ variables:
   imageRepository: 'thangvo9xtestaz'
   containerRegistry: 'testhtprofile.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
   imagePullSecret: 'testhtprofile80062114-auth'
   gitCommit: $(Build.SourceVersion)
   gitBranch: $(Build.SourceBranchName)
