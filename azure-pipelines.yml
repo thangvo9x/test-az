@@ -22,14 +22,15 @@ variables:
   imagePullSecret: 'testhtprofile80062114-auth'
   gitCommit: $(Build.SourceVersion)
   gitBranch: $(Build.SourceBranchName)
+  isDevelop: $[eq(variables['Build.SourceBranchName'], 'develop')]
+  isStaging: $[eq(variables['Build.SourceBranchName'], 'staging')]
+  isProduction: $[eq(variables['Build.SourceBranchName'], 'prod')]
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-
 stages:
-  - stage: Test
-    displayName: Test stage
+  - stage: Test stage
     jobs:
       - job: Test
         pool:
@@ -47,8 +48,7 @@ stages:
               effectivePomSkip: false
               sonarQubeRunAnalysis: false
 
-  - stage: Build
-    displayName: Build stage
+  - stage: Build stage
     jobs:
     - job: Build
       pool:
@@ -56,11 +56,11 @@ stages:
       steps:
       - script: echo $(gitCommit)-$(gitBranch)
       - task: Docker@2
-        displayName: Build
+        displayName: Build & Push to ACR
         inputs:
           command: buildAndPush
           repository: $(imageRepository)
           dockerfile: $(dockerfilePath)
           containerRegistry: $(dockerRegistryServiceConnection)
           tags: |
-            $(gitCommit)
+            $(Build.SourceBranchName)--$(Build.DefinitionName):$(gitCommit)
