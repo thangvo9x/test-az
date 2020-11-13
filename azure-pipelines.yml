@@ -8,7 +8,6 @@ trigger:
     - prod
     - develop
     - staging
-
 resources:
   - repo: self
 
