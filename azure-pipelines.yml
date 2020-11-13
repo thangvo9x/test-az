@@ -21,9 +21,9 @@ variables:
   dockerfilePath: '**/Dockerfile'
   gitCommit: $(Build.SourceVersion)
   gitBranch: $(Build.PullRequest.TargetBranchName)
-  isDevelop: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'develop')]
-  isStaging: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'staging')]
-  isProduction: $[eq(variables['Build.PullRequest.TargetBranchName	'], 'prod')]
+  isDevelop: $[eq(variables['Build.PullRequest.TargetBranchName'], 'develop')]
+  isStaging: $[eq(variables['Build.PullRequest.TargetBranchName'], 'staging')]
+  isProduction: $[eq(variables['Build.PullRequest.TargetBranchName'], 'prod')]
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
