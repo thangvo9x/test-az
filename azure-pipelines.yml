@@ -21,7 +21,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'b8753fd3-05c7-4436-b521-6b80fd43df38'
-  imageRepository: $(System.PullRequest.SourceBranch)--$(Build.DefinitionName)
+  imageRepository: $(System.PullRequest.TargetBranch)--$(Build.DefinitionName)
   containerRegistry: 'httechtest.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   gitCommit: $(Build.SourceVersion)
